@@ -452,7 +452,10 @@ class Version:
                     " Please install it with `pip install torch`"
                 )
 
-        model = torch.load(os.path.join(model_path, "weights/best.pt"))
+        if "yolov8" in model_type:
+            model = ultralytics.YOLO(os.path.join(model_path, "weights/best.pt"))
+        else:
+            model = torch.load(os.path.join(model_path, "weights/best.pt"))
 
         if isinstance(model["model"].names, list):
             class_names = model["model"].names
