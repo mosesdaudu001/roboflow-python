@@ -457,27 +457,27 @@ class Version:
         else:
             model = torch.load(os.path.join(model_path, "weights/best.pt"))
 
-        if isinstance(model["model"].names, list):
-            class_names = model["model"].names
+        if isinstance(model.model.names, list):
+            class_names = model.model.names
         else:
             class_names = []
-            for i, val in enumerate(model["model"].names):
-                class_names.append((val, model["model"].names[val]))
+            for i, val in enumerate(model.model.names):
+                class_names.append((val, model.model.names[val]))
             class_names.sort(key=lambda x: x[0])
             class_names = [x[1] for x in class_names]
 
         if "yolov8" in model_type:
             # try except for backwards compatibility with older versions of ultralytics
             if "-cls" in model_type:
-                nc = model["model"].yaml["nc"]
-                args = model["train_args"]
+                nc = model.model.yaml["nc"]
+                args = model.train_args
             else:
-                nc = model["model"].nc
-                args = model["model"].args
+                nc = model.model.nc
+                args = model.model.args
             try:
                 model_artifacts = {
                     "names": class_names,
-                    "yaml": model["model"].yaml,
+                    "yaml": model.model.yaml,
                     "nc": nc,
                     "args": {k: val for k, val in args.items() if ((k == "model") or (k == "imgsz") or (k == "batch"))},
                     "ultralytics_version": ultralytics.__version__,
@@ -486,7 +486,7 @@ class Version:
             except Exception:
                 model_artifacts = {
                     "names": class_names,
-                    "yaml": model["model"].yaml,
+                    "yaml": model.model.yaml,
                     "nc": nc,
                     "args": {
                         k: val
