@@ -517,7 +517,7 @@ class Version:
         with open(os.path.join(model_path, "model_artifacts.json"), "w") as fp:
             json.dump(model_artifacts, fp)
 
-        torch.save(model["model"].state_dict(), os.path.join(model_path, "state_dict.pt"))
+        torch.save(model.model.state_dict(), os.path.join(model_path, "state_dict.pt"))
 
         lista_files = [
             "results.csv",
